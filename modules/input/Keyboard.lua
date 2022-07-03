@@ -82,12 +82,18 @@ end
 	Check if _both_ keys are down. Useful for key combinations.
 
 	```lua
-	local shiftA = keyboard:AreKeysDown(Enum.KeyCode.LeftShift, Enum.KeyCode.A)
+	local shiftA = keyboard:AreKeysDown({Enum.KeyCode.LeftShift, Enum.KeyCode.A})
 	if shiftA then ... end
 	```
 ]=]
-function Keyboard:AreKeysDown(keyCodeOne: Enum.KeyCode, keyCodeTwo: Enum.KeyCode): boolean
-	return self:IsKeyDown(keyCodeOne) and self:IsKeyDown(keyCodeTwo)
+function Keyboard:AreKeysDown(keyCodes: {Enum.KeyCode}): boolean
+	for _, keyCode: Enum.KeyCode in keyCodes do
+		if not self:IsKeyDown(keyCode) then
+			return false
+		end
+	end
+			
+	return true
 end
 
 
@@ -96,14 +102,20 @@ end
 	the same operation.
 
 	```lua
-	local wOrUp = keyboard:AreEitherKeysDown(Enum.KeyCode.W, Enum.KeyCode.Up)
+	local wOrUp = keyboard:AreEitherKeysDown({Enum.KeyCode.W, Enum.KeyCode.Up})
 	if wOrUp then
 		-- Go forward
 	end
 	```
 ]=]
-function Keyboard:AreEitherKeysDown(keyCodeOne: Enum.KeyCode, keyCodeTwo: Enum.KeyCode): boolean
-	return self:IsKeyDown(keyCodeOne) or self:IsKeyDown(keyCodeTwo)
+function Keyboard:AreEitherKeysDown(keyCodes: {Enum.KeyCode): boolean
+	for _, keyCode: Enum.KeyCode in keyCodes do
+		if self:IsKeyDown(keyCode) then
+			return true
+		end
+	end
+			
+	return false
 end
 
 
